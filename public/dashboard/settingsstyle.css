@@ -1,0 +1,290 @@
+.workhere
+{
+    padding-top: 80px;
+}
+.mainbody
+{
+    padding: 80px 20px 20px;
+    /* border: 1px solid black; */
+    display:flex;
+     flex-direction: column;
+     align-items: center;
+     background-color: rgb(40, 205, 51, 0.2);
+     
+}
+.firstform
+{
+    background-color:white;
+    padding: 20px;
+    font-weight: 700;
+    font-family: sans-serif;
+    color: rgb(8, 135, 34);
+}
+#pimage
+{
+    display:none;
+    /* cursor:pointer; */
+}
+.profileupload {
+    align-items: center;
+}
+.profileupload button{
+    height: 30px;
+    margin-left: 50px;
+}
+#profileimage
+{
+    cursor:pointer;
+    /* box-shadow: 3px 3px 10px 1px rgb(105, 104, 104); */
+}
+.profilepic {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 3px 3px 8px 1px rgb(105, 104, 104);
+}
+.profilepic img {
+    width: 150px;
+    height: 150px;
+}
+.profileupload
+{
+    /* border:1px solid black; */
+    padding: 25px 0px;
+    display:flex;
+    justify-content: center;
+    /* background-color: white; */
+}
+.firstform form{
+    margin-top: 15px;
+    /* background-color: white; */
+}
+.textform
+{
+    padding: 5px 20px;
+    display:flex;
+    display: flex;
+    justify-content: space-between;
+    /* border: 1px solid black; */
+}
+.n{
+    padding: 15px;
+    margin: 10px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    
+}
+.textform{
+    /* justify-content: right; */
+    justify-content:right;
+    /* border: 1px solid black; */
+    align-items: flex-end;
+}
+.n div{
+    margin: 5px 0px;
+} 
+.firstform form{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+.firstform button{
+    padding: 5px 15px;
+    background-color: rgb(8, 135, 34);
+    color: white;
+    outline: none;
+    border: 1px outset rgb(255, 255, 255, 0.7);
+    padding: 5px;
+}
+      /* ==password==================================== */
+.password, .deleteAccount
+{
+    margin-top: 20px;
+    font-weight: 900;
+    background-color: white;
+    padding: 25px
+}
+.passheader
+{
+    font-size: 1.4rem;
+    font-family: sans-serif;
+    color: rgb(8, 135, 34);
+    margin-bottom: 10px;
+}
+
+.password form{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-top: 5px;
+    font-family: sans-serif;
+    color: rgb(8, 135, 34);
+    font-weight: 700;
+}
+input{
+    padding: 5px;
+    margin-left: 4px;
+}
+.password form div{
+    margin-bottom: 8px; 
+}
+
+input[type="date"]{
+    width: 162px;
+    margin-left: 4px;
+}
+
+.password form button
+{
+    background-color: rgb(8, 135, 34);
+    color: white;
+    outline: none;
+    border: 1px outset rgb(255, 255, 255, 0.7);
+    padding: 5px;
+}
+
+.activity select{
+    padding: 5px 45px;
+}
+
+.deleteAccount{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.delHead{
+    /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
+    font-size: 1.3rem;
+    font-family: sans-serif;
+    color: rgb(8, 135, 34);
+}
+.delDesc{
+    text-align: center;
+    color: rgb(0, 0, 0, 0.8);
+    font-weight: 100;
+    font-size: .8rem;
+    margin-top: 2px;
+    margin-bottom: 20px;
+    font-family: sans-serif;
+}
+.deleteAccount button{
+    padding: 6px 18px;
+    color: #d9534f;
+    outline: none;
+    /* border: 0px; */
+    font-family: sans-serif;
+    cursor: pointer;
+    border: 1px solid rgb(154, 154, 154);
+}
+.deleteAccount button:hover{
+    background-color: #d9534f;
+    color: white;
+    border: none;
+}
+.deleteAccount button:active{
+    transform: scale(.98);
+}
+.logAcc button{
+    color: #0275d8;
+}
+.logAcc button:hover{
+    background-color: #4999df;
+    color: white;
+    border: none;
+}
+
+/* Loader css ------------------*/
+
+.cover-spin {
+    position:fixed;
+    width:100%;
+    left:0;right:0;top:0;bottom:0;
+    background-color: rgba(0,0,0,0.4);
+    z-index:9999;
+}
+
+.cover-spin::after {
+    content:'';
+    display:block;
+    position:absolute;
+    left:48%;
+    top:40%;
+    border-style: solid;
+    border-color:rgb(49, 49, 49);
+    border-top-color: transparent;
+    border-width: 6px;
+    border-radius: 50%;
+    -webkit-animation: spin .8s linear infinite;
+    animation: spin .8s linear infinite;
+    width: 60px;
+    height: 60px;
+}
+  
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+@media(max-width: 760px){
+    .loader{
+        left: 46vw;
+    }
+}
+
+
+@media(min-width: 300px) and (max-width : 810px){
+    .textform{
+        flex-direction: column;
+    }
+    .textform .n{
+        margin-bottom: 0px;
+        margin-top: 0px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+
+    }
+}
+@media (max-width: 475px){
+    .textform{
+        flex-direction: column;
+        padding: 5px 0px;
+        font-size: .85rem;
+    }
+    .textform .n{
+        margin-bottom: 0px;
+        margin-top: 0px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+
+    }
+    input[type="date"]{
+        width: 110px;
+        margin-left: 4px;
+    }
+    select{
+        width: 124px;
+    }
+    input{
+        width: 110px;
+    }
+    .mainbody{
+        padding: 5px 0px;
+    }
+}
+@media (max-width: 380px){
+    .passheader{
+        font-size: 1.15rem;
+    }
+    .old, .new, .confirm{
+        font-size: .9rem;
+    }
+}

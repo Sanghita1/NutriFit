@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Exercise | NutriFit</title>
+    <link rel="shortcut icon" href="./static/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+        integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+    <link rel="stylesheet" href="./home.css">
+    <link rel="stylesheet" href="./dashboard/exercise.css">
+</head>
+
+<body>
+    <!-- navbar1======= -->
+    <%- include('../../partials/nav1.ejs') %>
+
+        <!-- navbar2===== -->
+        <%- include('../../partials/nav2.ejs') %>
+
+            <div class="container">
+                <div class="heading">
+                    FITNESS & EXERCISE
+                </div>
+                <div class="sub-container">
+                    <div class="sub-heading">
+                        Exercise Calculator
+                    </div>
+
+                    <img class="logos" src="./static/dashboard/weight-exercise.png" alt="weight">
+                    <img class="logos" src="./static/dashboard/stopwatch-exercise.png" alt="stopwatch">
+                    <img class="logos" src="./static/dashboard/muscle-exercise.png" alt="muscle">
+                    <img class="logos" src="./static/dashboard/stationary-bike-exercise.png" alt="stationary-bike">
+
+                    <div class="desc">
+                        <p>
+                            Estimate how many calories you burn during your workout. Then add them to your Daily Totals
+                            to see how many calories you burned.
+                        </p>
+                    </div>
+
+                    <div class="search">
+                        <p>Search Exercises</p>
+                        <div class="search-bar">
+                            <input type="text" placeholder="e.g. Skiing">
+                            <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </div>
+                    </div>
+                    <div class="menu">
+                        <div class="option-container">
+                            <p style="margin-bottom: 20px;">
+                                Popular Exercises
+                            </p>
+                            <div class="options"><a>Cycling</a></div>
+                            <div class="options"><a>Yoga</a></div>
+                            <div class="options"><a>Aerobics</a></div>
+                            <div class="options"><a>Pushup</a></div>
+                            <div class="options"><a>Jumping</a></div>
+                            <div class="options"><a>Lifting</a></div>
+                            <div class="options"><a>Rowing</a></div>
+                            <div class="options"><a>Walking</a></div>
+                            <div class="options"><a>Stretching</a></div>
+                            <div class="options"><a>Sailing</a></div>
+                            <div class="options"><a>Skiing</a></div>
+                            <div class="options"><a>Jogging</a></div>
+                        </div>
+                        <div class="exercises">
+
+                        </div>
+                        <div class="calculator">
+
+                        </div>
+                    </div>
+                    <div class="total-info" id="tott">
+
+                    </div>
+
+                    <div class="delete-button"> <button id="clear-data"> Clear Data </button> </div>
+                </div>
+            </div>
+
+            <script src="https://kit.fontawesome.com/ecf1e84425.js" crossorigin="anonymous"></script>
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+            <script>
+                // Alert ---------------------------------
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+
+
+
+                const clearData = document.getElementById("clear-data");
+
+                let total_calories = 0;
+                let temp_exercise = [];
+                let temp_calories = [];
+                let weight;
+
+                let tot_cal_burned = 0;
+
+                fetch("/user/me")
+                    .then((result) => { return result.json(); })
+                    .then((result) => {
+
+
+                        // clear all data ---------------------------------
+                        clearData.addEventListener("click", () => {
+                            const clearAllData = fetch(`/users/${result._id}`, {
+                                method: "PATCH",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    calorieBurned: 0
+                                })
+                            })
+                            window.location.reload();
+                        })
+
+
+
+
+
+
+
+                        weight = result.weight;
+                        if (result.calorieBurned)
+                            tot_cal_burned = result.calorieBurned;
+                        else
+                            tot_cal_burned = 0;
+                        laston = result.last;
+                        res = result._id;
+                        today = new Date();
+
+                        var currentdate = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
+                        if (laston != currentdate) {
+                            tot_cal_burned = 0;
+                            const updatesettings_data = fetch(`/users/${result._id}`, {
+                                method: "PATCH",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    last: currentdate,
+                                    calorieBurned: tot_cal_burned
+                                })
+                            })
+                        }
+                        weight *= 2.205;
+                        if (weight < 50) {
+                            weight = 50;
+                        } else if (weight > 500) {
+                            weight = 500;
+                        }
+                        document.onload = change_total_calories();
+                    })
+                // document.onload=change_total_calories();
+
+
+                document.querySelector('.search-bar button').addEventListener('click', (event) => {
+                    temp = document.querySelector('.search-bar input').value;
+
+                    const options = {
+                        method: 'GET',
+                        headers: {
+                            'X-RapidAPI-Key': 'cac8a91860mshc06462824400a3bp1dd5fajsnf07ec1f974a6',
+                            'X-RapidAPI-Host': 'calories-burned-by-api-ninjas.p.rapidapi.com'
+                        }
+                    };
+
+                    fetch('https://calories-burned-by-api-ninjas.p.rapidapi.com/v1/caloriesburned?activity=' + temp + '&duration=60&weight=' + weight, options)
+                        .then(response => response.json())
+                        .then(response => get_details(response))
+                        .catch(err => console.error(err));
+                })
+
+
+
+                let exercise_options = document.querySelectorAll('.options a');
+                for (let i = 0; i < exercise_options.length; i++) {
+                    exercise_options[i].addEventListener('click', (event) => {
+                        document.querySelector('.search-bar input').value = exercise_options[i].innerText;
+                        document.querySelector('.search-bar button').click();
+                    })
+                }
+
+                document.querySelector('.search-bar input').addEventListener('keyup', (event) => {
+                    if (event.which == 13) {
+                        document.querySelector('.search-bar button').click();
+                    }
+                })
+
+                document.onload = change_total_calories();
+
+
+
+                function get_details(response) {
+                    document.querySelector('.option-container').style.height = 0;
+                    document.querySelector('.calculator').style.height = 0;
+                    list = document.querySelector('.exercises');
+                    list.style.height = 'auto';
+
+                    if (response.length == 0 || response.length == undefined) {
+                        list.innerHTML = "<p style='margin-bottom:15px;'>No Exercise Found</p>";
+                        return;
+                    }
+                    temp_exercise = [];
+                    temp_calories = [];
+                    for (let i = 0; i < response.length; i++) {
+                        temp_exercise.push(response[i].name);
+                        temp_calories.push(response[i].total_calories)
+                    }
+
+                    list.innerHTML = "<p style='margin-bottom:15px;'>Select an Exercise</p>"
+                    for (let i = 0; i < temp_exercise.length; i++) {
+                        list.innerHTML += "<div class='exercise'><a>" + temp_exercise[i] + "</a></div>"
+                    }
+                    exercise_select(document.querySelectorAll(".exercise"));
+                }
+
+
+
+                function exercise_select(list) {
+                    for (let i = 0; i < list.length; i++) {
+                        list[i].addEventListener('click', (event) => {
+                            for (let j = 0; j < temp_exercise.length; j++) {
+                                if (temp_exercise[j] == list[i].innerText) {
+                                    final_view(j);
+                                }
+                            }
+                        })
+                    }
+                }
+
+
+                function final_view(i) {
+                    inhtml = '<p>Your Exercise</p><div class="calculate-item"><a>' + temp_exercise[i] + '</a><button>Change</button></div>';
+                    inhtml += '<p>Your Weight</p><div class="calculate-item"><a>' + weight.toFixed(2) + ' pounds</a></div>';
+                    inhtml += '<p>Duration</p><div class="calculate-item"><input type="number" required="required" inputmode="decimal" min="0" max="9999"><a>mins</a></div>';
+                    inhtml += '<div class="calculate-button"><button>Calculate</button></div>';
+                    document.querySelector('.exercises').style.height = 0;
+                    let calculator = document.querySelector('.calculator');
+                    calculator.style.height = 'auto';
+                    calculator.innerHTML = inhtml;
+
+                    document.querySelector('.calculate-item button').addEventListener('click', (event) => {
+                        document.querySelector('.option-container').style.height = 'auto';
+                        document.querySelector('.calculator').style.height = 0;
+                    })
+
+                    document.querySelector('.calculate-item input').addEventListener('keyup', (event) => {
+                        if (event.which == 13) {
+                            document.querySelector('.calculate-button').click();
+                        }
+                    })
+
+                    document.querySelector(".calculate-button").addEventListener('click', (event) => {
+                        calculate(i);
+                    })
+                }
+
+
+                function calculate(i) {
+                    let duration = document.querySelector(".calculate-item input").value;
+                    if (duration == '' || duration > 999 || duration < 1) {
+                        // alert('Duration should be in between 1 to 999 mins!!');
+
+                        Toast.fire({
+                            icon: 'info',
+                            title: 'Duration should be in between 1 to 999 mins'
+                        })
+
+                        
+                        return;
+                    }
+                    let c = temp_calories[i] * duration;
+                    c /= 60;
+                    inhtml = '<p>Your Exercise</p><div class="calculate-item"><a>' + temp_exercise[i] + '</a><button>Change</button></div>';
+                    inhtml += '<p>Your Weight</p><div class="calculate-item"><a>' + weight.toFixed(2) + ' kg</a></div>';
+                    inhtml += '<p>Duration</p><div class="calculate-item"><a>' + duration + ' mins</a></div>';
+                    inhtml += '<div style="text-align:center;"><p style="color: rgb(8, 135, 34); font-size: 1.4rem;">You have Burned ' + c.toFixed(2) + ' Calories <i class="fa-solid fa-fire"></i>.</p></div>';
+                    inhtml += '<div class="calculate-button"><button>+ Add to My Totals</button></div>';
+                    document.querySelector('.calculator').innerHTML = inhtml;
+
+                    document.querySelector('.calculate-item button').addEventListener('click', (event) => {
+                        document.querySelector('.option-container').style.height = 'auto';
+                        document.querySelector('.calculator').style.height = 0;
+                    })
+
+                    document.querySelector('.calculate-button').addEventListener('click', (event) => {
+                        total_calories = c;
+                        tot_cal_burned += total_calories;
+                        const updatesettings_datas = fetch(`/users/${res}`, {
+                            method: "PATCH",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                calorieBurned: tot_cal_burned
+
+                            })
+                        })
+                        change_total_calories();
+                    })
+
+                }
+
+
+                function change_total_calories() {
+                    let total_info = document.querySelector(".total-info");
+                    if (tot_cal_burned.toFixed(2) == 0.00) {
+                        total_info.innerText = "You have burned 0 calories today 😞."
+                    }
+                    else {
+                        total_info.innerText = "You have burned total " + tot_cal_burned.toFixed(2) + " calories today 🎉."
+                    }
+
+                    document.querySelector('.calculator').style.height = 0;
+                    document.querySelector('.option-container').style.height = 'auto';
+                }
+
+
+            </script>
+</body>
+
+</html>

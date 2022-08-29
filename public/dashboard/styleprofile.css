@@ -1,0 +1,235 @@
+.profile-container
+{
+    height:90vh;
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right:0px;
+    display:flex;
+    padding: 50px 80px;
+    justify-content: center;
+    background-color: white;
+}
+.mainbody
+{
+    display: flex;
+    background-color: white;
+    box-shadow: 3px 3px 10px 3px rgb(116, 112, 112);
+    margin-top: 100px;
+}
+
+.onlyname
+{
+    padding: 80px 80px;
+    /* background-color: rgb(8, 135, 33); */
+    background-color: rgb(13, 167, 44);
+    background: linear-gradient(to top right, rgb(1, 60, 1), rgb(8, 135, 33), rgb(68, 245, 68) );
+    display: flex;
+    flex-direction: column;
+}
+
+.onlyname .profimg
+{
+    margin-bottom: 20px;
+    margin-left: 22px;
+}
+
+.onlyname .profimg img
+{
+    height: 140px;
+    width: 140px;
+    border-radius: 50%;
+    background: white;
+    padding: 3px;
+    box-shadow: 0px 0px 10px 1px rgb(0, 0, 0, 0.4);
+}
+.name
+{
+    font-size: 1.4rem;
+    color:rgb(255, 255, 255);
+    font-weight: 900;
+    font-family: sans-serif;
+}
+
+.belowname
+{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 0px;
+    font-size: 1.2rem;
+    color:rgb(255, 255, 255);
+    font-family: sans-serif;
+}
+.goal{
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+/* otherinfo right side============================================ */
+.otherinfo
+{
+    padding: 16px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    /* background-color: rgb(40, 205, 51, 0.2); */
+}
+/* right side top================================ */
+.otherinfo .info{
+margin-bottom: 45px;
+margin-top: 0px;
+}
+.info .infoheader
+{
+    font-family: sans-serif;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: rgb(8, 135, 34);
+    font-weight: 700;
+}
+/* Bottom part============================== */
+.otherdata .otherheader
+{
+    font-family: sans-serif;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: rgb(8, 135, 34);
+    font-weight: 700;
+}
+.infoheader , .otherheader{
+    display:flex;
+}
+.headerimg img{
+    font-size: 0.5rem;
+    height:20px;
+    margin-right: 5px;
+}
+
+.infodata, .otherdata
+{
+    color: black;
+    font-family: sans-serif;
+    font-size: 0.8rem;
+}
+
+.infodata div, .otherdata div
+{
+    padding: 4px 2px;
+}
+
+.bmi
+{
+    display:flex;
+}
+.bmivalue
+{
+    color:rgb(15, 191, 12);
+    margin-left: 2px;
+}
+
+
+/* Loader css ------------------*/
+
+.cover-spin {
+    position:fixed;
+    width:100%;
+    left:0;right:0;top:0;bottom:0;
+    background-color: rgba(0,0,0,0.4);
+    z-index:9999;
+}
+
+.cover-spin::after {
+    content:'';
+    display:block;
+    position:absolute;
+    left:48%;
+    top:40%;
+    border-style: solid;
+    border-color:rgb(49, 49, 49);
+    border-top-color: transparent;
+    border-width: 6px;
+    border-radius: 50%;
+    -webkit-animation: spin .8s linear infinite;
+    animation: spin .8s linear infinite;
+    width: 60px;
+    height: 60px;
+}
+
+
+  
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+@media(max-width: 760px){
+    .loader{
+        left: 46vw;
+    }
+}
+
+
+
+@media (min-width: 360px) and (max-width: 765px){
+    .profile-container{
+        height: 118vh;
+        padding: 50px 0px;
+    }
+    .mainbody{
+        flex-direction: column;
+    }
+    .otherinfo{
+        padding: 10px 0px;
+        justify-content: center;
+        padding-left: 30px;
+        padding-top: 10px;
+        margin-bottom: 20px;
+    }
+    .onlyname{
+        padding: 80px 80px;
+    }
+    .infodata, .otherdata{
+        line-height: 8px;
+    }
+    .otherdata .otherheader
+    {
+        margin-bottom: 5px;
+    }
+    .otherinfo .info{
+        margin-bottom: 25px;
+        margin-top: 0px;
+    }
+}
+@media (max-width: 360px){
+    .profile-container{
+        height: 112vh;
+        padding: 50px 10px;
+    }
+    .mainbody{
+        flex-direction: column;
+        /* padding-right: 5px;; */
+    }
+    .otherinfo{
+        justify-content: center;
+        /* align-items: center; */
+        margin-left: 5px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+    .onlyname{
+        padding: 50px 50px;
+    }
+    .infodata, .otherdata{
+        line-height: 8px;
+    }
+    .otherdata .otherheader
+    {
+        margin-bottom: 5px;
+    }
+    .otherinfo .info{
+        margin-bottom: 25px;
+        margin-top: 0px;
+    }
+}
